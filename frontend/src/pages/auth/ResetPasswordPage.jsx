@@ -1,41 +1,40 @@
-import { useState } from 'react'
-import type { FormEvent } from 'react'
-import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Sparkles, ArrowLeft } from 'lucide-react'
+import { useState } from "react";
+import { Link, useLocation, useNavigate, Navigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Sparkles, ArrowLeft } from "lucide-react";
 
-import { api, apiErrorMessage } from '../../lib/api'
+import { api, apiErrorMessage } from "../../lib/api";
 
 export function ResetPasswordPage() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const stateEmail = (location.state as { email?: string } | undefined)?.email
+  const navigate = useNavigate();
+  const location = useLocation();
+  const stateEmail = location.state?.email;
 
-  const [email] = useState(stateEmail || '')
-  const [code, setCode] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [formError, setFormError] = useState<string | null>(null)
+  const [email] = useState(stateEmail || "");
+  const [code, setCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState(null);
 
   if (!stateEmail) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   }
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault()
-    setFormError(null)
-    setLoading(true)
+  async function onSubmit(e) {
+    e.preventDefault();
+    setFormError(null);
+    setLoading(true);
     try {
-      await api.post('/auth/reset-password', {
+      await api.post("/auth/reset-password", {
         email: email.trim(),
         code: code.trim(),
         newPassword,
-      })
-      navigate('/login', { replace: true })
+      });
+      navigate("/login", { replace: true });
     } catch (err) {
-      setFormError(apiErrorMessage(err))
+      setFormError(apiErrorMessage(err));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -109,12 +108,15 @@ export function ResetPasswordPage() {
               disabled={loading}
               className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading ? 'Resetting…' : 'Reset Password'}
+              {loading ? "Resetting…" : "Reset Password"}
             </button>
           </form>
 
           <div className="mt-6 text-center text-sm">
-            <Link to="/login" className="inline-flex items-center gap-1 text-slate-400 hover:text-white">
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-1 text-slate-400 hover:text-white"
+            >
               <ArrowLeft className="size-4" />
               Back to Login
             </Link>
@@ -122,5 +124,5 @@ export function ResetPasswordPage() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

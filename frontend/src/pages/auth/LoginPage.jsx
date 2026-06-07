@@ -1,91 +1,96 @@
-import { useEffect, useState } from 'react'
-import type { FormEvent } from 'react'
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Sparkles, Eye, EyeOff } from 'lucide-react'
+import { useEffect, useState } from "react";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
+import { motion } from "framer-motion";
+import { Sparkles, Eye, EyeOff } from "lucide-react";
 
-import { api, apiBase, apiErrorMessage } from '../../lib/api'
-import { useAuth } from '../../lib/auth'
+import { api, apiBase, apiErrorMessage } from "../../lib/api";
+import { useAuth } from "../../lib/auth";
 
 export function LoginPage() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [searchParams] = useSearchParams()
-  const emailJustVerified = Boolean(
-    (location.state as { verified?: boolean } | undefined)?.verified,
-  )
-  const { refreshUser } = useAuth()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [formError, setFormError] = useState<string | null>(null)
-  const [googleEnabled, setGoogleEnabled] = useState(false)
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const emailJustVerified = Boolean(location.state?.verified);
+  const { refreshUser } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState(null);
+  const [googleEnabled, setGoogleEnabled] = useState(false);
 
-  const authError = searchParams.get('error')
-  const googleAuthError = authError === 'google'
-  const collegeEmailError = authError === 'college_email'
+  const authError = searchParams.get("error");
+  const googleAuthError = authError === "google";
+  const collegeEmailError = authError === "college_email";
 
   useEffect(() => {
-    let cancelled = false
-    ;(async () => {
+    let cancelled = false;
+    (async () => {
       try {
-        const { data } = await api.get<{ enabled: boolean }>('/auth/google/status')
-        if (!cancelled) setGoogleEnabled(Boolean(data?.enabled))
+        const { data } = await api.get("/auth/google/status");
+        if (!cancelled) setGoogleEnabled(Boolean(data?.enabled));
       } catch {
-        if (!cancelled) setGoogleEnabled(false)
+        if (!cancelled) setGoogleEnabled(false);
       }
-    })()
+    })();
     return () => {
-      cancelled = true
-    }
-  }, [])
+      cancelled = true;
+    };
+  }, []);
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault()
-    setFormError(null)
-    setLoading(true)
+  async function onSubmit(e) {
+    e.preventDefault();
+    setFormError(null);
+    setLoading(true);
     try {
-      const { data } = await api.post<{ accessToken: string; refreshToken: string }>(
-        '/auth/login',
-        { email: email.trim(), password },
-      )
-      if (data.accessToken) localStorage.setItem('accessToken', data.accessToken)
-      if (data.refreshToken) localStorage.setItem('refreshToken', data.refreshToken)
-      
-      await refreshUser()
-      window.location.assign('/app')
+      const { data } = await api.post("/auth/login", {
+        email: email.trim(),
+        password,
+      });
+      if (data.accessToken)
+        localStorage.setItem("accessToken", data.accessToken);
+      if (data.refreshToken)
+        localStorage.setItem("refreshToken", data.refreshToken);
+      await refreshUser();
+      window.location.assign("/app");
     } catch (err) {
-      setFormError(apiErrorMessage(err))
+      setFormError(apiErrorMessage(err));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   function startGoogle() {
     if (!googleEnabled) {
       setFormError(
-        'Google sign-in is not configured on the server yet. Add GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_CALLBACK_URL to the backend .env file.',
-      )
-      return
+        "Google sign-in is not configured on the server yet. Add GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_CALLBACK_URL to the backend .env file.",
+      );
+      return;
     }
-    window.location.assign(`${apiBase}/api/auth/google`)
+    window.location.assign(`${apiBase}/api/auth/google`);
   }
 
   async function handleForgotPassword() {
     if (!email.trim()) {
-      setFormError('Please enter your college email first to reset your password.')
-      return
+      setFormError(
+        "Please enter your college email first to reset your password.",
+      );
+      return;
     }
-    setFormError(null)
-    setLoading(true)
+    setFormError(null);
+    setLoading(true);
     try {
-      await api.post('/auth/forgot-password', { email: email.trim() })
-      navigate('/reset-password', { state: { email: email.trim() } })
+      await api.post("/auth/forgot-password", { email: email.trim() });
+      navigate("/reset-password", { state: { email: email.trim() } });
     } catch (err) {
-      setFormError(apiErrorMessage(err))
+      setFormError(apiErrorMessage(err));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -124,15 +129,16 @@ export function LoginPage() {
 
           {collegeEmailError ? (
             <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-100">
-              Google sign-in requires a college email (for example @svecw.edu.in). Choose your
-              college Google account, not a personal Gmail.
+              Google sign-in requires a college email (for example
+              @svecw.edu.in). Choose your college Google account, not a personal
+              Gmail.
             </div>
           ) : null}
 
           {googleAuthError ? (
             <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-100">
-              Google sign-in did not complete. Use email and password, try again, or contact support
-              if this keeps happening.
+              Google sign-in did not complete. Use email and password, try
+              again, or contact support if this keeps happening.
             </div>
           ) : null}
 
@@ -159,7 +165,10 @@ export function LoginPage() {
               />
             </div>
             <div>
-              <label className="text-xs text-slate-300" htmlFor="login-password">
+              <label
+                className="text-xs text-slate-300"
+                htmlFor="login-password"
+              >
                 Password
               </label>
               <div className="relative mt-1">
@@ -167,18 +176,23 @@ export function LoginPage() {
                   id="login-password"
                   className="w-full rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3 pr-10 text-sm outline-none placeholder:text-slate-500 focus:border-indigo-400/50"
                   placeholder="••••••••"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   value={password}
                   onChange={(ev) => setPassword(ev.target.value)}
                   required
                 />
+
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
                 >
-                  {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  {showPassword ? (
+                    <EyeOff className="size-4" />
+                  ) : (
+                    <Eye className="size-4" />
+                  )}
                 </button>
               </div>
               <div className="mt-1 text-right">
@@ -198,7 +212,7 @@ export function LoginPage() {
               disabled={loading}
               className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading ? 'Signing in…' : 'Login'}
+              {loading ? "Signing in…" : "Login"}
             </button>
 
             <div className="flex items-center gap-3 py-1 text-xs text-slate-400">
@@ -217,14 +231,17 @@ export function LoginPage() {
                   fill="#EA4335"
                   d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.9-5.5 3.9-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.9 3.6 14.7 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c6.9 0 8.6-6.2 8-9.4H12z"
                 />
+
                 <path
                   fill="#34A853"
                   d="M3.8 7.3l3.2 2.3C7.8 8 9.7 6.5 12 6.5c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.9 3.6 14.7 2.7 12 2.7c-3.6 0-6.8 2.1-8.2 4.6z"
                 />
+
                 <path
                   fill="#FBBC05"
                   d="M12 21.3c2.6 0 4.8-.9 6.4-2.4l-3-2.5c-.8.5-1.9.9-3.4.9-3.9 0-5.2-2.6-5.5-3.9l-3.2 2.5c1.4 2.7 4.3 5.4 8.7 5.4z"
                 />
+
                 <path
                   fill="#4285F4"
                   d="M21.3 12c0-.6-.1-1.1-.2-1.8H12v3.9h5.5c-.3 1.5-1.2 2.7-2.5 3.3l3 2.5c1.8-1.7 3.3-4.2 3.3-7.9z"
@@ -235,7 +252,7 @@ export function LoginPage() {
           </form>
 
           <div className="mt-6 text-center text-xs text-slate-400">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <Link to="/signup" className="text-slate-200 hover:text-white">
               Sign up
             </Link>
@@ -243,5 +260,5 @@ export function LoginPage() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

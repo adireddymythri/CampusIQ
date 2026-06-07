@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   Bot,
@@ -8,16 +8,16 @@ import {
   MessageCircle,
   ShieldCheck,
   Sparkles,
-} from 'lucide-react'
+} from "lucide-react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-}
+};
 
 export function LandingPage() {
   const heroImage =
-    '/@fs/C:/Users/nagam/.cursor/projects/c-Users-nagam-OneDrive-Desktop-campusIQ/assets/c__Users_nagam_AppData_Roaming_Cursor_User_workspaceStorage_c38426960e6234f6257dd964b11a2bcb_images_image-b6a8d119-fdbd-4a46-9a8f-846e1f4b7d76.png'
+    "/@fs/C:/Users/nagam/.cursor/projects/c-Users-nagam-OneDrive-Desktop-campusIQ/assets/c__Users_nagam_AppData_Roaming_Cursor_User_workspaceStorage_c38426960e6234f6257dd964b11a2bcb_images_image-b6a8d119-fdbd-4a46-9a8f-846e1f4b7d76.png";
 
   return (
     <div className="min-h-dvh bg-gradient-to-b from-[#080b20] via-[#0a0f2a] to-[#080b20] text-slate-100">
@@ -33,7 +33,9 @@ export function LandingPage() {
               <Sparkles className="size-5 text-cyan-300" />
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-semibold tracking-wide">CampusIQ</div>
+              <div className="text-sm font-semibold tracking-wide">
+                CampusIQ
+              </div>
               <div className="text-xs text-slate-400">AI College Learning</div>
             </div>
           </Link>
@@ -114,7 +116,11 @@ export function LandingPage() {
 
               <motion.div
                 animate={{ y: [0, -4, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
                 className="relative"
               >
                 <img
@@ -122,6 +128,7 @@ export function LandingPage() {
                   alt="CampusIQ learning platform visual"
                   className="h-[18rem] w-full rounded-2xl border border-white/10 object-cover object-center shadow-2xl shadow-indigo-950/40 md:h-[20rem] lg:h-[22rem]"
                 />
+
                 <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-t from-[#0a1027]/25 to-transparent" />
               </motion.div>
             </div>
@@ -130,34 +137,37 @@ export function LandingPage() {
               {[
                 {
                   icon: FileText,
-                  title: 'Smart Notes',
-                  desc: 'Access high-quality notes',
-                  tone: 'from-pink-500/25 to-rose-500/25',
-                  iconColor: 'text-rose-300',
+                  title: "Smart Notes",
+                  desc: "Access high-quality notes",
+                  tone: "from-pink-500/25 to-rose-500/25",
+                  iconColor: "text-rose-300",
                 },
                 {
                   icon: Bot,
-                  title: 'AI Assistant',
-                  desc: 'Solve doubts instantly',
-                  tone: 'from-emerald-500/25 to-green-500/25',
-                  iconColor: 'text-emerald-300',
+                  title: "AI Assistant",
+                  desc: "Solve doubts instantly",
+                  tone: "from-emerald-500/25 to-green-500/25",
+                  iconColor: "text-emerald-300",
                 },
                 {
                   icon: Brain,
-                  title: 'Exam Practice',
-                  desc: 'Practice MCQs & tests',
-                  tone: 'from-amber-500/25 to-orange-500/25',
-                  iconColor: 'text-amber-300',
+                  title: "Exam Practice",
+                  desc: "Practice MCQs & tests",
+                  tone: "from-amber-500/25 to-orange-500/25",
+                  iconColor: "text-amber-300",
                 },
                 {
                   icon: MessageCircle,
-                  title: 'Community',
-                  desc: 'Ask, answer, learn together',
-                  tone: 'from-sky-500/25 to-blue-500/25',
-                  iconColor: 'text-sky-300',
+                  title: "Community",
+                  desc: "Ask, answer, learn together",
+                  tone: "from-sky-500/25 to-blue-500/25",
+                  iconColor: "text-sky-300",
                 },
               ].map((card) => (
-                <div key={card.title} className="rounded-2xl border border-white/10 bg-[#0b112f]/85 p-4">
+                <div
+                  key={card.title}
+                  className="rounded-2xl border border-white/10 bg-[#0b112f]/85 p-4"
+                >
                   <div className="flex items-center gap-3">
                     <div
                       className={`grid size-8 place-items-center rounded-lg bg-gradient-to-r ${card.tone} ring-1 ring-white/10`}
@@ -172,32 +182,51 @@ export function LandingPage() {
             </div>
 
             <div className="mt-3 grid grid-cols-2 border-t border-white/10 pt-3 md:grid-cols-4">
-                {[
-                  { k: '10K+', v: 'Students' },
-                  { k: '50K+', v: 'Notes Uploaded' },
-                  { k: '100+', v: 'Colleges' },
-                  { k: '4.9 ⭐', v: 'User Rating' },
-                ].map((s) => (
-                  <div key={s.v} className="px-2 py-2 text-center md:px-4">
-                    <div className="text-2xl font-semibold text-purple-300 md:text-3xl">{s.k}</div>
-                    <div className="mt-1 text-xs text-slate-400">{s.v}</div>
+              {[
+                { k: "10K+", v: "Students" },
+                { k: "50K+", v: "Notes Uploaded" },
+                { k: "100+", v: "Colleges" },
+                { k: "4.9 ⭐", v: "User Rating" },
+              ].map((s) => (
+                <div key={s.v} className="px-2 py-2 text-center md:px-4">
+                  <div className="text-2xl font-semibold text-purple-300 md:text-3xl">
+                    {s.k}
                   </div>
-                ))}
-              </div>
+                  <div className="mt-1 text-xs text-slate-400">{s.v}</div>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </section>
 
         <section id="how-it-works" className="py-8 md:py-12">
           <div className="rounded-3xl border border-white/10 bg-[#0b112f]/85 p-8 backdrop-blur">
             <div className="text-sm text-slate-300">How It Works</div>
-            <div className="mt-2 text-2xl font-semibold">Study flow built for your semester</div>
+            <div className="mt-2 text-2xl font-semibold">
+              Study flow built for your semester
+            </div>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
               {[
-                { step: '01', title: 'Upload Notes', desc: 'Add your subject notes and resources.' },
-                { step: '02', title: 'Learn with AI', desc: 'Get summaries, explanations, and quick revision points.' },
-                { step: '03', title: 'Practice & Improve', desc: 'Take quizzes and track your progress daily.' },
+                {
+                  step: "01",
+                  title: "Upload Notes",
+                  desc: "Add your subject notes and resources.",
+                },
+                {
+                  step: "02",
+                  title: "Learn with AI",
+                  desc: "Get summaries, explanations, and quick revision points.",
+                },
+                {
+                  step: "03",
+                  title: "Practice & Improve",
+                  desc: "Take quizzes and track your progress daily.",
+                },
               ].map((item) => (
-                <div key={item.step} className="rounded-2xl bg-[#0a1027]/90 p-5 ring-1 ring-white/10">
+                <div
+                  key={item.step}
+                  className="rounded-2xl bg-[#0a1027]/90 p-5 ring-1 ring-white/10"
+                >
                   <div className="text-xs text-cyan-300">Step {item.step}</div>
                   <div className="mt-2 text-lg font-semibold">{item.title}</div>
                   <div className="mt-1 text-sm text-slate-300">{item.desc}</div>
@@ -212,7 +241,9 @@ export function LandingPage() {
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div>
                 <div className="text-sm text-slate-300">Pricing</div>
-                <div className="mt-2 text-2xl font-semibold">Start free. Upgrade for AI power.</div>
+                <div className="mt-2 text-2xl font-semibold">
+                  Start free. Upgrade for AI power.
+                </div>
               </div>
               <Link
                 to="/signup"
@@ -224,17 +255,24 @@ export function LandingPage() {
             <div className="mt-7 grid gap-4 md:grid-cols-2">
               {[
                 {
-                  name: 'Starter',
-                  price: '₹0',
-                  items: ['Notes browsing', 'Bookmarks', 'Basic quizzes'],
+                  name: "Starter",
+                  price: "₹0",
+                  items: ["Notes browsing", "Bookmarks", "Basic quizzes"],
                 },
                 {
-                  name: 'Pro AI',
-                  price: '₹199/mo',
-                  items: ['AI summaries', 'AI quiz generation', 'Doubt assistant'],
+                  name: "Pro AI",
+                  price: "₹199/mo",
+                  items: [
+                    "AI summaries",
+                    "AI quiz generation",
+                    "Doubt assistant",
+                  ],
                 },
               ].map((p) => (
-                <div key={p.name} className="rounded-3xl bg-[#0a1027]/90 p-6 ring-1 ring-white/10">
+                <div
+                  key={p.name}
+                  className="rounded-3xl bg-[#0a1027]/90 p-6 ring-1 ring-white/10"
+                >
                   <div className="flex items-center justify-between">
                     <div className="text-lg font-semibold">{p.name}</div>
                     <div className="text-sm text-slate-300">{p.price}</div>
@@ -257,20 +295,20 @@ export function LandingPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {[
               {
-                q: 'Helped me prepare faster every week.',
-                a: 'CampusIQ summaries and quizzes save hours before exams.',
+                q: "Helped me prepare faster every week.",
+                a: "CampusIQ summaries and quizzes save hours before exams.",
               },
               {
-                q: 'Feels premium and super easy to use.',
-                a: 'Everything from notes to discussion is clean and quick.',
+                q: "Feels premium and super easy to use.",
+                a: "Everything from notes to discussion is clean and quick.",
               },
               {
-                q: 'The AI assistant is genuinely useful.',
-                a: 'It explains concepts in simple language with examples.',
+                q: "The AI assistant is genuinely useful.",
+                a: "It explains concepts in simple language with examples.",
               },
               {
-                q: 'Great for campus collaboration.',
-                a: 'We use it to share notes and clear doubts as a team.',
+                q: "Great for campus collaboration.",
+                a: "We use it to share notes and clear doubts as a team.",
               },
             ].map((x) => (
               <div
@@ -289,18 +327,18 @@ export function LandingPage() {
             {[
               {
                 icon: Brain,
-                title: 'AI Summaries & Quizzes',
-                desc: 'Auto summarize PDFs, extract key points, and generate timed MCQs.',
+                title: "AI Summaries & Quizzes",
+                desc: "Auto summarize PDFs, extract key points, and generate timed MCQs.",
               },
               {
                 icon: ShieldCheck,
-                title: 'College-only Access',
-                desc: 'JWT + Google OAuth with verified college email domains.',
+                title: "College-only Access",
+                desc: "JWT + Google OAuth with verified college email domains.",
               },
               {
                 icon: Sparkles,
-                title: 'Premium UI & Analytics',
-                desc: 'Dashboard cards, micro-interactions, charts, and dark glass UI.',
+                title: "Premium UI & Analytics",
+                desc: "Dashboard cards, micro-interactions, charts, and dark glass UI.",
               },
             ].map((f) => (
               <div
@@ -335,6 +373,5 @@ export function LandingPage() {
         </footer>
       </main>
     </div>
-  )
+  );
 }
-

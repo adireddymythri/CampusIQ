@@ -9,14 +9,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.5.0",
+    "detype": "^3.0.0",
+    "glob": "^13.0.6",
     "postcss": "^8.5.14",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4.3.0",
-    "typescript": "~6.0.2",
     "vite": "^8.0.10"
   },
   "dependencies": {

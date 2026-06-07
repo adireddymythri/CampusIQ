@@ -1,42 +1,42 @@
-import { useState, FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Sparkles } from 'lucide-react'
-import { api, apiErrorMessage } from '../../lib/api'
-import { useAuth } from '../../lib/auth'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
+import { api, apiErrorMessage } from "../../lib/api";
+import { useAuth } from "../../lib/auth";
 
 export function VerifyEmailPage() {
-  const navigate = useNavigate()
-  const { user, refreshUser, logout } = useAuth()
-  const [code, setCode] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate();
+  const { user, refreshUser, logout } = useAuth();
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   if (!user) {
-    navigate('/login')
-    return null
+    navigate("/login");
+    return null;
   }
 
   if (user.isEmailVerified) {
-    navigate('/app')
-    return null
+    navigate("/app");
+    return null;
   }
 
-  async function onVerify(e: FormEvent) {
-    e.preventDefault()
-    setError(null)
-    setLoading(true)
+  async function onVerify(e) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
     try {
-      await api.post('/auth/verify-email', {
+      await api.post("/auth/verify-email", {
         email: user?.email,
         code: code.trim(),
-      })
-      await refreshUser()
-      window.location.assign('/app')
+      });
+      await refreshUser();
+      window.location.assign("/app");
     } catch (err) {
-      setError(apiErrorMessage(err))
+      setError(apiErrorMessage(err));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -92,9 +92,9 @@ export function VerifyEmailPage() {
               disabled={loading}
               className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:brightness-110 disabled:opacity-60"
             >
-              {loading ? 'Verifying…' : 'Verify'}
+              {loading ? "Verifying…" : "Verify"}
             </button>
-            
+
             <button
               type="button"
               onClick={logout}
@@ -106,5 +106,5 @@ export function VerifyEmailPage() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }
