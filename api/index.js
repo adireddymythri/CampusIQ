@@ -1,3 +1,8 @@
+// Vercel Serverless polyfills for pdf-parse
+global.DOMMatrix = global.DOMMatrix || class DOMMatrix {};
+global.ImageData = global.ImageData || class ImageData {};
+global.Path2D = global.Path2D || class Path2D {};
+
 const { createApp } = require('../backend/src/app');
 const { connectDb } = require('../backend/src/config/db');
 const { env } = require('../backend/src/config/env');
