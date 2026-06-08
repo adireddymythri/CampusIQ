@@ -1,11 +1,11 @@
 import axios from "axios";
 
+// Use relative path for production (Vercel), fallback to localhost for development
 const raw = import.meta.env.VITE_API_BASE_URL;
-
-export const apiBase = raw?.replace(/\/$/, "") || "http://localhost:8090";
+export const apiBase = raw ? raw.replace(/\/$/, "") : "";
 
 export const api = axios.create({
-  baseURL: `${apiBase}/api`,
+  baseURL: raw ? `${apiBase}/api` : "/api",
   headers: { "Content-Type": "application/json" },
 });
 
