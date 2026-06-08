@@ -22,3 +22,10 @@ module.exports = async (req, res) => {
   // Let Express handle the request
   return app(req, res);
 };
+
+// Disable Vercel's default body parser so multer can read the raw multipart stream
+module.exports.config = {
+  api: {
+    bodyParser: false,
+  },
+};

@@ -166,7 +166,9 @@ export function SettingsPage() {
     const formData = new FormData();
     formData.append("avatar", file);
     try {
-      const res = await api.post("/profile/avatar", formData);
+      const res = await api.post("/profile/avatar", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       if (res.data.ok) {
         window.location.reload(); // Refresh to show new avatar globally
       }

@@ -99,7 +99,9 @@ export function UploadPage() {
     formData.append("documentType", documentType);
 
     try {
-      const { data } = await api.post("/notes/upload", formData);
+      const { data } = await api.post("/notes/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (data.ok) {
         setSuccess(true);
