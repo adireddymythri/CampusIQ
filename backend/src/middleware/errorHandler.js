@@ -4,7 +4,7 @@ function errorHandler(err, _req, res, _next) {
   const apiErr =
     err instanceof ApiError
       ? err
-      : new ApiError(500, 'INTERNAL_ERROR', 'Something went wrong')
+      : new ApiError(500, 'INTERNAL_ERROR', err.message || 'Something went wrong')
 
   // eslint-disable-next-line no-console
   if (apiErr.status >= 500) console.error(err)

@@ -17,6 +17,10 @@ function isConfigured() {
 
 async function uploadToCloudinary(file) {
   if (!isConfigured()) {
+    if (env.NODE_ENV === 'production' || process.env.VERCEL) {
+      throw new Error("Cloudinary environment variables (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET) are missing in Vercel. Please add them in your Vercel Dashboard -> Settings -> Environment Variables, and redeploy.");
+    }
+
     // Fallback to local storage in development/without Cloudinary
     const uploadDir = path.join(__dirname, '../../uploads')
     if (!fs.existsSync(uploadDir)) {
@@ -48,11 +52,9 @@ async function uploadToCloudinary(file) {
   const base64 = file.buffer.toString('base64')
   const dataUri = `data:${file.mimetype};base64,${base64}`
 
-  const isPdf = (file.mimetype || '').includes('pdf') || (file.originalname || '').toLowerCase().endsWith('.pdf')
-
   const uploaded = await cloudinary.uploader.upload(dataUri, {
     folder: 'studyhub/notes',
-    resource_type: isPdf ? 'raw' : 'auto',
+    resource_type: 'auto',
     filename_override: file.originalname,
     use_filename: true,
     unique_filename: true,
