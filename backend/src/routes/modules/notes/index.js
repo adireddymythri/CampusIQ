@@ -25,7 +25,14 @@ notesRouter.post('/upload', authRequired, upload.single('file'), async (req, res
     if (!req.file) throw new ApiError(400, 'VALIDATION_ERROR', 'Missing file')
     const { title, description, subjectId, subjectName, semesterId, branchId, unit, difficulty, documentType } = req.body ?? {}
     
-    if (!title) throw new ApiError(400, 'VALIDATION_ERROR', 'Missing title')
+    if (!title) throw new ApiError(400, 'VALIDATION_ERROR', 'Document Title is required')
+    if (!documentType) throw new ApiError(400, 'VALIDATION_ERROR', 'Document Type is required')
+    if (!branchId) throw new ApiError(400, 'VALIDATION_ERROR', 'Branch is required')
+    if (!semesterId) throw new ApiError(400, 'VALIDATION_ERROR', 'Semester is required')
+    if (!subjectId && !subjectName) throw new ApiError(400, 'VALIDATION_ERROR', 'Subject is required')
+    if (!unit) throw new ApiError(400, 'VALIDATION_ERROR', 'Unit is required')
+    if (!difficulty) throw new ApiError(400, 'VALIDATION_ERROR', 'Difficulty is required')
+    if (!description) throw new ApiError(400, 'VALIDATION_ERROR', 'Description is required')
 
     let finalSubjectId = subjectId;
     if (!finalSubjectId && subjectName) {

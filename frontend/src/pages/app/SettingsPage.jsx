@@ -166,15 +166,14 @@ export function SettingsPage() {
     const formData = new FormData();
     formData.append("avatar", file);
     try {
-      const res = await api.post("/profile/avatar", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await api.post("/profile/avatar", formData);
       if (res.data.ok) {
         window.location.reload(); // Refresh to show new avatar globally
       }
     } catch (err) {
       console.error("Failed to upload avatar", err);
-      alert("Failed to upload avatar");
+      const msg = err.response?.data?.error?.message || err.message || "Failed to upload avatar";
+      alert("Failed to upload avatar: " + msg);
     }
   };
 

@@ -47,8 +47,40 @@ export function UploadPage() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
+    if (!title) {
+      setError("Document Title is required.");
+      return;
+    }
+    if (!documentType) {
+      setError("Document Type is required.");
+      return;
+    }
     if (!file) {
       setError("Please select a file to upload.");
+      return;
+    }
+    if (!branchId) {
+      setError("Branch is required.");
+      return;
+    }
+    if (!semesterId) {
+      setError("Semester is required.");
+      return;
+    }
+    if (!subjectId) {
+      setError("Subject is required.");
+      return;
+    }
+    if (!unit) {
+      setError("Unit is required.");
+      return;
+    }
+    if (!difficulty) {
+      setError("Difficulty is required.");
+      return;
+    }
+    if (!description) {
+      setError("Description is required.");
       return;
     }
 
@@ -58,20 +90,16 @@ export function UploadPage() {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("title", title);
-    if (description) formData.append("description", description);
-    if (branchId) formData.append("branchId", branchId);
-    if (semesterId) formData.append("semesterId", semesterId);
-    if (subjectId) formData.append("subjectName", subjectId); // Send free-text subject name
-    if (unit) formData.append("unit", unit);
-    if (difficulty) formData.append("difficulty", difficulty);
+    formData.append("description", description);
+    formData.append("branchId", branchId);
+    formData.append("semesterId", semesterId);
+    formData.append("subjectName", subjectId); // Send free-text subject name
+    formData.append("unit", unit);
+    formData.append("difficulty", difficulty);
     formData.append("documentType", documentType);
 
     try {
-      const { data } = await api.post("/notes/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await api.post("/notes/upload", formData);
 
       if (data.ok) {
         setSuccess(true);
@@ -140,7 +168,7 @@ export function UploadPage() {
               <div className="relative">
                 <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2">
                   <FileText className="size-4 text-indigo-400" />
-                  Document Title
+                  Document Title <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -175,13 +203,14 @@ export function UploadPage() {
                     <line x1="16" y1="17" x2="8" y2="17"></line>
                     <polyline points="10 9 9 9 8 9"></polyline>
                   </svg>
-                  Document Type
+                  Document Type <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative max-w-[250px]">
                   <select
                     value={documentType}
                     onChange={(e) => setDocumentType(e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-indigo-500/50 transition-all text-white appearance-none"
+                    required
                   >
                     <option value="note" className="bg-slate-900">
                       Study Note
@@ -207,7 +236,7 @@ export function UploadPage() {
               <div className="relative">
                 <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2">
                   <FileUp className="size-4 text-indigo-400" />
-                  Select File (PDF, DOCX)
+                  Select File (PDF, DOCX) <span className="text-rose-500">*</span>
                 </label>
                 {!file ? (
                   <div className="relative group">
@@ -216,6 +245,7 @@ export function UploadPage() {
                       onChange={handleFileChange}
                       accept=".pdf,.doc,.docx"
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      required
                     />
 
                     <div className="border-2 border-dashed border-white/10 group-hover:border-indigo-500/50 rounded-2xl p-10 flex flex-col items-center justify-center transition-all bg-white/[0.02]">
@@ -276,12 +306,13 @@ export function UploadPage() {
                       <circle cx="6" cy="18" r="3" />
                       <path d="M18 9a9 9 0 0 1-9 9" />
                     </svg>
-                    Branch
+                    Branch <span className="text-rose-500">*</span>
                   </label>
                   <select
                     value={branchId}
                     onChange={(e) => setBranchId(e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-indigo-500/50 transition-all text-white appearance-none"
+                    required
                   >
                     <option value="" className="bg-slate-900">
                       Select Branch
@@ -313,12 +344,13 @@ export function UploadPage() {
                       <line x1="8" y1="2" x2="8" y2="6" />
                       <line x1="3" y1="10" x2="21" y2="10" />
                     </svg>
-                    Semester
+                    Semester <span className="text-rose-500">*</span>
                   </label>
                   <select
                     value={semesterId}
                     onChange={(e) => setSemesterId(e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-indigo-500/50 transition-all text-white appearance-none"
+                    required
                   >
                     <option value="" className="bg-slate-900">
                       Select Semester
@@ -348,7 +380,7 @@ export function UploadPage() {
                       <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
                       <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                     </svg>
-                    Subject
+                    Subject <span className="text-rose-500">*</span>
                   </label>
                   <input
                     list="subject-list"
@@ -357,6 +389,7 @@ export function UploadPage() {
                     onChange={(e) => setSubjectId(e.target.value)}
                     placeholder="Type or select a subject..."
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-indigo-500/50 transition-all text-white"
+                    required
                   />
 
                   <datalist id="subject-list">
@@ -380,12 +413,13 @@ export function UploadPage() {
                       <polyline points="2 17 12 22 22 17" />
                       <polyline points="2 12 12 17 22 12" />
                     </svg>
-                    Unit
+                    Unit <span className="text-rose-500">*</span>
                   </label>
                   <select
                     value={unit}
                     onChange={(e) => setUnit(e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-indigo-500/50 transition-all text-white appearance-none"
+                    required
                   >
                     <option value="" className="bg-slate-900">
                       Select Unit
@@ -438,13 +472,14 @@ export function UploadPage() {
                     <line x1="18" y1="20" x2="18" y2="4" />
                     <line x1="6" y1="20" x2="6" y2="16" />
                   </svg>
-                  Difficulty
+                  Difficulty <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative max-w-[200px]">
                   <select
                     value={difficulty}
                     onChange={(e) => setDifficulty(e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm outline-none focus:border-indigo-500/50 transition-all text-white appearance-none"
+                    required
                   >
                     <option value="easy" className="bg-slate-900">
                       Easy
@@ -494,7 +529,7 @@ export function UploadPage() {
                   >
                     <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                   </svg>
-                  Description
+                  Description <span className="text-rose-500">*</span>
                 </label>
                 <div className="relative">
                   <textarea
@@ -504,6 +539,7 @@ export function UploadPage() {
                     rows={3}
                     maxLength={250}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-indigo-500/50 transition-all resize-none text-white"
+                    required
                   />
 
                   <div className="absolute bottom-3 right-4 text-xs text-slate-500">
